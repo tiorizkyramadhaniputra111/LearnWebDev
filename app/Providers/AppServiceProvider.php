@@ -7,21 +7,19 @@ use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        // Paksa HTTPS di environment production (Railway)
-        if (app()->environment('production')) {
+        // FIX HTTPS untuk Railway / Reverse Proxy
+        if (
+            request()->header('x-forwarded-proto') === 'https' ||
+            str_contains((string) request()->header('x-forwarded-proto'), 'https')
+        ) {
+            $_SERVER['HTTPS'] = 'on';
             URL::forceScheme('https');
         }
     }
