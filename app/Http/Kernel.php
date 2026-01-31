@@ -10,7 +10,12 @@ class Kernel extends HttpKernel
      * Global HTTP middleware stack.
      */
     protected $middleware = [
+        // Trust proxy & forwarded headers (Railway)
         \App\Http\Middleware\TrustProxies::class,
+
+        // FORCE HTTPS (ANTI WARNING FORM NOT SECURE)
+        \App\Http\Middleware\ForceHttps::class,
+
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
